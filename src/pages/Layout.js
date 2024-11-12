@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 
 export default function Layout() {
   const navigate = useNavigate();
+
   const logout = () => {
+    localStorage.clear();
     navigate("/login");
   }
+
+  useEffect(() => {
+    if(!localStorage.getItem("token")){
+      navigate("/login");
+    }
+  });
+  
   return (
     <div>
       <nav
@@ -40,7 +49,7 @@ export default function Layout() {
               <Link className="nav-link" to="/cart">Cart</Link>
               </li>
             </ul>
-            <button onClick={logout} className="btn btn-outline-success" type="submit">
+            <button onClick={logout}  className="btn btn-outline-success" type="submit">
               Logout
             </button>
           </div>
